@@ -7,9 +7,9 @@ import random
 import string
 
 def performance_analysis():
-    num_threads = 4  # Adjust based on actual threading setup
-    num_processes = 4  # Adjust based on actual multiprocessing setup
-    P = 0.9  # Assume 90% of the task is parallelizable
+    num_threads = 4 
+    num_processes = 4
+    P = 0.9 #?
 
     # Measure execution times
     print("Running Sequential Execution...")
