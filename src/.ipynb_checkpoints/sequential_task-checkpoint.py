@@ -1,4 +1,4 @@
-from functions import *
+from src.functions import *
 import time
 
 def run_sequential(num_letters=10000000, num_numbers=10000000):
@@ -10,8 +10,5 @@ def run_sequential(num_letters=10000000, num_numbers=10000000):
     total_end_time = time.time()
 
     print(f"Total time taken: {total_end_time - total_start_time} seconds")
-    print(f"Generated letters (Sample): {letters_result[:10]}...")  # Print a small preview
-    print(f"Sum of random numbers: {numbers_result}")
-
 
 run_sequential()

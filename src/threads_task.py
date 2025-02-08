@@ -1,4 +1,4 @@
-from functions import *
+from src.functions import *
 import threading
 import time
 
@@ -40,8 +40,6 @@ def run_threads(num_letters=10000000, num_numbers=10000000):
     total_end_time = time.time()
 
     print(f"Total time taken: {total_end_time - total_start_time} seconds")
-    print(f"Generated letters (Sample): {letter_results[0][:10]}...")  # Print a sample of the generated letters
-    print(f"Sum of random numbers: {number_results[0] + number_results[1]}")
 
 
 run_threads()
