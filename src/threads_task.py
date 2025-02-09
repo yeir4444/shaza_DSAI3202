@@ -42,4 +42,4 @@ def run_threads(num_letters=10000000, num_numbers=10000000):
     print(f"Total time taken: {total_end_time - total_start_time} seconds")
 
 
-run_threads()
+
