@@ -1,13 +1,18 @@
-from src.functions import *
 import time
 
-def run_sequential(num_letters=10000000, num_numbers=10000000):
-    total_start_time = time.time()
+def calculate_sum(n):
+    return sum(range(1, n + 1))
 
-    letters_result = join_random_letters(num_letters)  # Store the result
-    numbers_result = add_random_numbers(num_numbers)  # Use correct variable
-
-    total_end_time = time.time()
-
-    print(f"Total time taken: {total_end_time - total_start_time} seconds")
-
+def run_sequential():
+    
+    number = 1000000
+    start_time = time.time()
+    
+    total_sum = calculate_sum(number)
+    
+    end_time = time.time()
+    
+    execution_time = end_time - start_time
+    
+    print(f"The sum of all numbers from 1 to {number} is {total_sum}.")
+    print(f"Execution time: {execution_time} seconds.")

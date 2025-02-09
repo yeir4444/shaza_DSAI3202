@@ -1,15 +1,21 @@
-from src.functions import *
+
 from src.sequential_task import *
-from src.threads_task import *
-from src.processes_task import *
+from src.parallelize_threads_task import *
+from src.paralelize_processes_task import *
 import time
 import random
 import string
 
 def performance_analysis():
+
     num_threads = 4  
     num_processes = 4 
     P = 0.9 
+
+    num_threads = 4 
+    num_processes = 4
+    P = 0.9 #?
+
 
     # Measure execution times
     print("Running Sequential Execution...")
@@ -54,18 +60,18 @@ def performance_analysis():
     print(f"Gustafson’s Law Speedup (Processes): {S_G_processes:.2f}")
     
 
-# task 2_a: sequential
-print("task 2_a: sequential")
+# task 3_a: sequential
+print("task 3_a: sequential")
 run_sequential()
 
-# task 2_b: threading
-print("task 2_b: threading")
+# task 3_b: threading
+print("task 3_b: Parallelize with Threading")
 run_threads()
 
-# task 2_c: processes
-print("task 2_c: processes")
+# task 3_c: processes
+print("task 3_c: Parallelize with Multiprocessing")
 run_processes()
 
-# task 2_d: Performance analysis
-print("task 2_d: Performance analysis")
+# task 3_d: Performance analysis
+print("task 3_d: Performance analysis")
 performance_analysis()
