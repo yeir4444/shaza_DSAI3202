@@ -1,4 +1,3 @@
-
 from src.sequential_task import *
 from src.parallelize_threads_task import *
 from src.paralelize_processes_task import *
@@ -13,8 +12,7 @@ def performance_analysis():
     P = 0.9 
 
     num_threads = 4 
-    num_processes = 4
-    P = 0.9 #?
+    P = 0.9
 
 
     # Measure execution times

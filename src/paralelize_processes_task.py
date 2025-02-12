@@ -36,4 +36,4 @@ def run_processes():
     
     print(sum(results))
     end_time = time.time()
-    print(f"All threads have finished, the execution time is {end_time - start_time}")
+    print(f"Execution time: {end_time - start_time}")
