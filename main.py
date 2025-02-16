@@ -7,15 +7,12 @@ import random
 import string
 
 def performance_analysis():
-<<<<<<< HEAD
     num_threads = 4  
     num_processes = 4 
     P = 0.9 
-=======
     num_threads = 4 
     num_processes = 4
     P = 0.9 #?
->>>>>>> 24825e4d67740e413d487aa476358c507852750c
 
     # Measure execution times
     print("Running Sequential Execution...")
