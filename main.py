@@ -10,10 +10,6 @@ def performance_analysis():
     num_threads = 4  
     num_processes = 4 
     P = 0.9 
-    num_threads = 4 
-    num_processes = 4
-    P = 0.9 #?
-
     # Measure execution times
     print("Running Sequential Execution...")
     start = time.time()
