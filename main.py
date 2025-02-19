@@ -7,8 +7,8 @@ import string
 
 def performance_analysis():
 
-    num_threads = 4  
-    num_processes = 4
+    num_threads = 6 
+    num_processes = 6
     P = 0.9 
 
     # Measure execution times
