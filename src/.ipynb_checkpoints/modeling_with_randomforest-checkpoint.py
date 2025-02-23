@@ -11,7 +11,7 @@ import threading
 import multiprocessing
 
 # Load the train_dataset
-file_path = 'data/housing_prices_data/train.csv'
+file_path = '../data/housing_prices_data/train.csv'
 train_data = pd.read_csv(file_path, index_col="Id")
 
 # Columns to be deleted
