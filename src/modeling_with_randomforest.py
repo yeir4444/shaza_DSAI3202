@@ -222,7 +222,7 @@ def performance_analysis():
 
     # Measure execution times
     print("Running Sequential Execution...")
-    T_sequential = sequential_time
+    T_sequential = -1* sequential_time
 
     print("\nRunning Threading Execution...")
     T_threads = Thread_time
