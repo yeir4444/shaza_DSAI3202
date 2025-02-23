@@ -155,6 +155,7 @@ for t in threads:
 
 print(f"Best parameters: {best_parameters} for RMSE = {best_rmse}, MAPE = {best_mape}%")
 end_time = time.time()
+Thread_time= end_time - start_time
 print(f"Threading execution time: {end_time - start_time} seconds")
 
 #processes_task
@@ -209,6 +210,51 @@ for p in processes:
 
 print(f"Best parameters: {dict(best_parameters)} for RMSE = {best_rmse.value}, MAPE = {best_mape.value}%")
 end_time = time.time()
+Multi_time= end_time - start_time
 print(f"Multiprocessing execution time: {end_time - start_time} seconds")
+
+
+def performance_analysis():
+
+    num_threads = 6 
+    num_processes = 6
+    P = 0.9 
+
+    # Measure execution times
+    print("Running Sequential Execution...")
+    T_sequential = sequential_time
+
+    print("\nRunning Threading Execution...")
+    T_threads = Thread_time
+
+    print("\nRunning Multiprocessing Execution...")
+    T_processes = Multi_time
+
+    # Compute Speedups
+    S_threads = T_sequential / T_threads
+    S_processes = T_sequential / T_processes
+
+    # Compute Efficiencies
+    E_threads = S_threads / num_threads
+    E_processes = S_processes / num_processes
+
+    # Compute Amdahl’s Speedup
+    S_A_threads = 1 / ((1 - P) + (P / num_threads))
+    S_A_processes = 1 / ((1 - P) + (P / num_processes))
+
+    # Compute Gustafson’s Speedup
+    S_G_threads = (1 - P) + (P * num_threads)
+    S_G_processes = (1 - P) + (P * num_processes)
+
+    # Print results
+    print("\n=== Performance Analysis Results ===")
+    print(f"Sequential Time: {T_sequential:.4f} sec")
+    print(f"Threading Time: {T_threads:.4f} sec, Speedup: {S_threads:.2f}, Efficiency: {E_threads:.2f}")
+    print(f"Multiprocessing Time: {T_processes:.4f} sec, Speedup: {S_processes:.2f}, Efficiency: {E_processes:.2f}")
+    print(f"Amdahl’s Law Speedup (Threads): {S_A_threads:.2f}")
+    print(f"Amdahl’s Law Speedup (Processes): {S_A_processes:.2f}")
+    print(f"Gustafson’s Law Speedup (Threads): {S_G_threads:.2f}")
+    print(f"Gustafson’s Law Speedup (Processes): {S_G_processes:.2f}")
+performance_analysis()
 
 
