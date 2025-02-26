@@ -1,14 +1,17 @@
+import threading
 import random
 import time
+from src.synchronization import *
 
-latest_temperatures = {}
-
-def simulate_sensor():
+def simulate_sensor(sensor_id):
+    """Simulates a temperature sensor that updates readings."""
     while True:
         temp = random.randint(15, 40)
-        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())  # Current UTC timestamp
-        latest_temperatures[timestamp] = temp
+        with lock:
+            latest_temperatures[sensor_id] = temp
+            temperature_queue.put((sensor_id, temp))
         
-        print(f"Time: {timestamp}, Temperature: {temp}°C")
-        time.sleep(1)
-
+        with condition:
+            condition.notify()  # Notify display to update
+        
+        time.sleep(1)  # Generate a new reading every second

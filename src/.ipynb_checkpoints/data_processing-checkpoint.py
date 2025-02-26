@@ -1,42 +1,24 @@
-import random
 import time
-import threading
-from collections import deque
-
-temperature_averages = {}
-temperature_queue = deque()
-MAX_READINGS = 10
-
-def simulate_sensor():
-    while True:
-        temp = random.randint(15, 40)
-        
-        temperature_queue.append(temp)
-        
-        print(f"Temperature reading: {temp}°C")
-        
-        time.sleep(1)
+from src.synchronization import *
 
 def process_temperatures():
+    """Computes moving averages from sensor readings."""
+    sensor_data = {i: [] for i in range(3)}
+
     while True:
-        if temperature_queue:
-            avg_temp = sum(temperature_queue) / len(temperature_queue)
-             
-            timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
-            temperature_averages[timestamp] = avg_temp
-            
-            print(f"Time: {timestamp}, Average Temperature: {avg_temp:.2f}°C")
-        
-        time.sleep(1
-                  
-def run_processes():
-    sensor_thread = threading.Thread(target=simulate_sensor)
-    sensor_thread.daemon = True 
-    sensor_thread.start()
-    
-    processing_thread = threading.Thread(target=process_temperatures)
-    processing_thread.daemon = True  
-    processing_thread.start()
-    
-    while True:
+        if not temperature_queue.empty():
+            with lock:
+                sensor_id, temp = temperature_queue.get()
+                sensor_data[sensor_id].append(temp)
+
+                # Keep last 10 readings for averaging
+                if len(sensor_data[sensor_id]) > 10:
+                    sensor_data[sensor_id].pop(0)
+
+                avg_temp = sum(sensor_data[sensor_id]) / len(sensor_data[sensor_id])
+                temperature_averages[sensor_id] = round(avg_temp, 2)
+
+            with condition:
+                condition.notify()  # Notify display to update
+
         time.sleep(1)
