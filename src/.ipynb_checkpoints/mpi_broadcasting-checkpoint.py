@@ -13,8 +13,7 @@ if rank == 0:
     comm.bcast(data_to_send, root=0)
     print("Process 0 broadcasted data")
 else:
-    # Other processes set up a non-blocking receive
-    request = comm.irecv(source=0, tag=100)
-    data_received = request.wait()  # Wait for the non-blocking receive to complete
+    # Other processes receive the broadcasted message correctly
+    data_received = comm.bcast(None, root=0)  # All ranks must call bcast the same way
     print(f"Process {rank} received data: {data_received}")
     print(f"Process {rank} (IP: {ip_address}) received the broadcasted message.")
