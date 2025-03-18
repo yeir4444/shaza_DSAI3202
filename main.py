@@ -6,28 +6,22 @@ from src.function3 import *
 from src.function4 import *
 
 def main3():
-    sizes = [10**5, 10**6] 
-    for size in sizes:
-        numbers = [random.randint(1, 5) for _ in range(size)]
-        print(f"Testing with {size} numbers:")
+    N1 = 10**5
+    N2 = 10**6 
+    numbers1 = [random.randint(1, 10) for _ in range(N1)]
+    numbers2 = [random.randint(1, 10) for _ in range(N2)]
 
-        start = time.time()
-        sequential_square(numbers)
-        print("Sequential:", time.time() - start)
+    for numbers, label in zip([numbers1, numbers2], ["100000 numbers", "1000000 numbers"]):
+        print(f"\nTesting with {label}:")
 
-        start = time.time()
-        multiprocessing_square(numbers)
-        print("Multiprocessing (one process per number):", time.time() - start)
+        benchmark(sequential_square, numbers, "Sequential")
+        benchmark(multiprocessing_square, numbers, "Multiprocessing Pool (map)")
+        benchmark(multiprocessing_pool_map, numbers, "Multiprocessing Pool (map)")
+        benchmark(multiprocessing_pool_apply, numbers, "Multiprocessing Pool (apply)")
+        benchmark(process_pool_executor, numbers, "ProcessPoolExecutor")
 
-        start = time.time()
-        multiprocessing_pool_map(numbers)
-        print("Multiprocessing Pool (map):", time.time() - start)
-
-        start = time.time()
-        process_pool_executor(numbers)
-        print("ProcessPoolExecutor:", time.time() - start)
-        
-        print("--------------------")
+        # Run the async benchmark
+        asyncio.run(async_benchmark(async_process_pool_map, numbers, "Asynchronous ProcessPoolExecutor"))
 
 def main4():
     pool_size = 3  
@@ -44,4 +38,4 @@ def main4():
         p.join()
 
 if __name__ == "__main__":
-    main4()
+    main3()
