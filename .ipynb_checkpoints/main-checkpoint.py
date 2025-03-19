@@ -6,12 +6,12 @@ from src.function3 import *
 from src.function4 import *
 
 def main3():
-    N1 = 10**5
-    N2 = 10**6 
+    N1 = 10**6
+    N2 = 10**7 
     numbers1 = [random.randint(1, 10) for _ in range(N1)]
     numbers2 = [random.randint(1, 10) for _ in range(N2)]
 
-    for numbers, label in zip([numbers1, numbers2], ["100000 numbers", "1000000 numbers"]):
+    for numbers, label in zip([numbers1, numbers2], ["1000000 numbers", "10000000 numbers"]):
         print(f"\nTesting with {label}:")
 
         benchmark(sequential_square, numbers, "Sequential")

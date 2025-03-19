@@ -1,3 +1,8 @@
+## 3. Square program run
+
+
+
+
 ## iv) Discuss Observations:
 # • What happens if more processes try to access the pool than there are available connections?
     - Processes that exceed the available connections must wait until an existing connection is released.
