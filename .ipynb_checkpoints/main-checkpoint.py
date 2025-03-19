@@ -56,8 +56,10 @@ def genetic_algorithm():
             print(f"Generation {generation + 1} took {end_time - start_time:.2f} seconds.")
 
     if rank == 0:
+        total_time = end_time - start_time
         best_index = np.argmax(all_scores)
         best_route = population[best_index]
+        print("Total time:" , total_time)
         print("Final Best Route:", best_route)
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ def calculate_fitness(route,
 
         if distance == 100000:  # Infeasible route
             return -1e6  # Large negative penalty
-
+                
         total_distance += distance
 
     # Add distance from the last node back to the starting node (node 0)

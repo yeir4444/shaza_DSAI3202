@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import pandas as pd
 from genetic_algorithms_functions import calculate_fitness, \
@@ -28,6 +29,7 @@ stagnation_counter = 0
 
 # Main GA loop
 for generation in range(num_generations):
+    start_time = time.time()
     # Evaluate calculate_fitness
     calculate_fitness_values = np.array([calculate_fitness(route, distance_matrix) for route in population])
 
@@ -74,9 +76,11 @@ for generation in range(num_generations):
 
 # Update calculate_fitness_values for the final population
 calculate_fitness_values = np.array([calculate_fitness(route, distance_matrix) for route in population])
+end_time = time.time()
 
 # Output the best solution
 best_idx = np.argmin(calculate_fitness_values)
 best_solution = population[best_idx]
 print("Best Solution:", best_solution)
 print("Total Distance:", calculate_fitness(best_solution, distance_matrix))
+print("Total time:", end_time - start_time)

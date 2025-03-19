@@ -29,11 +29,18 @@ This assignment is divided into several parts:
      - **Crossover**: Perform **order crossover (OX)** to combine the genetic material of two parent routes and create offspring.
      - **Mutation**: Apply **mutation** to introduce random changes in the offspring.
      - **Termination Condition**: The algorithm runs until a predefined number of generations or until an acceptable solution is found.
-
+     - **output**:
+     - Best Solution: [0, 20, 18, 27, 1, 19, 6, 25, 15, 3, 8, 16, 10, 26, 22, 29, 12, 7, 28, 23, 24, 2, 30, 9, 4, 14, 31, 13, 5, 11, 17, 21]
+     - Total Distance: -1000000.0
+     - Total time: 0.038
 3. **Part 3: Parallelization**
    - Once the sequential version of the genetic algorithm is working, you need to parallelize the algorithm to run over multiple machines or processes.
-   - Parallelization is implemented using **MPI4PY** (Message Passing Interface for Python).
+   - Parallelization is implemented using **MPI4PY**.
    - The goal is to distribute the population across multiple processes and parallelize the fitness calculation, selection, and other operations.
+   - **output**:
+   - Generation 100 took 0.00 seconds.
+   - Total time: 0.003048419952392578
+   - Final Best Route: [0, 65, 68, 33, 84, 1, 88, 34, 16, 11, 56, 45, 9, 97, 96, 46, 90, 67, 53, 8, 63, 94, 73, 47, 44, 60, 83, 95, 57, 54, 75, 74, 82, 69, 23, 52, 12, 58, 32, 62, 86, 92, 7, 25, 77, 29, 41, 71, 43, 78, 17, 42, 59, 2, 79, 50, 91, 24, 80, 99, 70, 36, 87, 55, 20, 35, 49, 39, 13, 66, 4, 93, 15, 28, 72, 10, 19, 89, 14, 40, 38, 26, 31, 21, 3, 48, 85, 22, 5, 76, 30, 37, 51, 18, 27, 81, 61, 98, 64, 6]
 
 4. **Part 4: Enhancements**
    - After parallelizing the genetic algorithm, you need to improve it further by:
