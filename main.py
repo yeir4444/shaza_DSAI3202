@@ -38,4 +38,4 @@ def main4():
         p.join()
 
 if __name__ == "__main__":
-    main3()
+    main4()
