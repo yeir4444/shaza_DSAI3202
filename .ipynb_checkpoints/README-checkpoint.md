@@ -35,22 +35,43 @@ This assignment is divided into several parts:
      - Total time: 0.038
 3. **Part 3: Parallelization**
    - Once the sequential version of the genetic algorithm is working, you need to parallelize the algorithm to run over multiple machines or processes.
-   - Parallelization is implemented using **MPI4PY** (Message Passing Interface for Python).
+   - Parallelization is implemented using **MPI4PY**.
    - The goal is to distribute the population across multiple processes and parallelize the fitness calculation, selection, and other operations.
-   - **output**:
+   - **output with city_distances_extended.csv**:
    - Generation 100 took 0.00 seconds.
    - Total time: 0.003048419952392578
    - Final Best Route: [0, 65, 68, 33, 84, 1, 88, 34, 16, 11, 56, 45, 9, 97, 96, 46, 90, 67, 53, 8, 63, 94, 73, 47, 44, 60, 83, 95, 57, 54, 75, 74, 82, 69, 23, 52, 12, 58, 32, 62, 86, 92, 7, 25, 77, 29, 41, 71, 43, 78, 17, 42, 59, 2, 79, 50, 91, 24, 80, 99, 70, 36, 87, 55, 20, 35, 49, 39, 13, 66, 4, 93, 15, 28, 72, 10, 19, 89, 14, 40, 38, 26, 31, 21, 3, 48, 85, 22, 5, 76, 30, 37, 51, 18, 27, 81, 61, 98, 64, 6]
+   - **output with city_distances.csv**:
+   - Generation 100 took 0.00 seconds.
+   - Total time: 0.0022308826446533203
+   - Final Best Route: [0, 21, 15, 13, 23, 2, 10, 6, 1, 20, 3, 30, 12, 11, 18, 22, 9, 4, 8, 26, 24, 17, 19, 16, 31, 7, 14, 27, 5, 25, 28, 29]
+   - **output with MPI4PY on all machines**:
+   - full discloser, me and my teammates couldn't get it to work for some reason and we have faced the same issue with lab6 execution. However, we mannaged to make it work on the MPI4PY lecture.
 
 4. **Part 4: Enhancements**
    - After parallelizing the genetic algorithm, you need to improve it further by:
-     - Distributing the algorithm across multiple machines.
-     - Enhancing the algorithm's performance and comparing the results before and after the improvements.
+     - Ensure population size matches all_scores before selection.
+           The IndexError happened because select_in_tournament assumed a larger population size than available scores.
+     - Use np.minimum to prevent invalid indices in tournament selection.
+           If num_tournaments * tournament_size > len(all_scores), it could result in invalid indices.
+     - Broadcast the correct population size to all MPI processes.
+           This ensures every process has the same updated population.
+     - **output after enhancements with city_distances.csv**:
+     - Generation 100 took 0.00 seconds.
+     - Total time: 0.0013835430145263672
+     - Final Best Route: [26, 2, 9, 16, 25, 15, 13, 11, 18, 8, 30, 20, 6, 7, 31, 1, 22, 21, 0, 27, 19, 3, 23, 14, 12, 5, 29, 4, 28, 24, 10, 17]
+     - The efficiency of the enhanced implementation is 26.87% when using 6 processes.
+     - The speedup achieved after enhancements is 1.61×.
+     - **output after enhancements with city_distances_extended.csv**:
+     - Generation 100 took 0.00 seconds.
+     - Total time: 0.002903461456298828
+     - Final Best Route: [0, 20, 28, 51, 26, 5, 85, 83, 66, 53, 76, 84, 88, 23, 21, 79, 38, 82, 17, 49, 40, 93, 87, 65, 86, 78, 96, 77, 47, 32, 97, 99, 56, 6, 27, 37, 33, 54, 30, 42, 60, 45, 90, 67, 7, 52, 61, 39, 46, 95, 55, 36, 29, 62, 43, 35, 11, 15, 44, 50, 68, 24, 4, 25, 75, 1, 81, 92, 74, 73, 3, 48, 8, 12, 57, 58, 41, 69, 13, 19, 14, 10, 31, 64, 94, 9, 80, 22, 34, 89, 98, 59, 18, 70, 16, 2, 91, 71, 72, 63]
+     - The efficiency of the enhanced implementation is 17.50% when using 6 processes.
+     - The speedup achieved after enhancements is 1.05x.
+       
+### **Adding More Cars to the Problem**  
 
-5. **Part 5: Large-Scale Problem**
-   - You are tasked with running the algorithm on an extended city map with more nodes (100 nodes instead of 20).
-   - The extended map introduces a more complex problem with more possible routes.
-
+    - To add more cars, each solution (chromosome) should represent multiple routes, one per vehicle. The fitness function must consider the total cost for all cars, ensuring balanced workload distribution. Crossover and mutation operators should allow swapping cities between vehicles while maintaining valid routes. Using **MPI**, the computation can be parallelized, assigning different cars to different processes for efficiency. Constraints like vehicle capacity and time limits should also be considered.
 ---
 
 ## Tools and Technologies
