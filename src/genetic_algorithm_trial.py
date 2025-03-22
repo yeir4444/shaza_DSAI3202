@@ -7,7 +7,7 @@ from genetic_algorithms_functions import calculate_fitness, \
 
 
 # Load the distance matrix
-distance_matrix = pd.read_csv('../data/city_distances.csv').to_numpy()
+distance_matrix = pd.read_csv('../data/city_distances_extended.csv').to_numpy()
 
 # Parameters
 num_nodes = distance_matrix.shape[0]
@@ -31,7 +31,7 @@ stagnation_counter = 0
 for generation in range(num_generations):
     start_time = time.time()
     # Evaluate calculate_fitness
-    calculate_fitness_values = np.array([calculate_fitness(route, distance_matrix) for route in population])
+    calculate_fitness_values = np.array([- calculate_fitness(route, distance_matrix) for route in population])
 
     # Check for stagnation
     current_best_calculate_fitness = np.min(calculate_fitness_values)

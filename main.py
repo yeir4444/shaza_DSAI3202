@@ -15,7 +15,7 @@ population_size = 100
 mutation_rate = 0.01
 tournament_size = 3
 num_tournaments = max(1, population_size // tournament_size)  # Ensure at least 1 tournament
-distance_matrix = pd.read_csv('data/city_distances_extended.csv').to_numpy()
+distance_matrix = pd.read_csv('data/city_distances.csv').to_numpy()
 
 # Main GA loop
 def genetic_algorithm():
@@ -29,7 +29,7 @@ def genetic_algorithm():
         start_time = time.time()
 
         # Compute local fitness scores
-        local_scores = np.array([calculate_fitness(route, distance_matrix) for route in local_population])
+        local_scores = np.array([- calculate_fitness(route, distance_matrix) for route in local_population])
 
         # Gather scores at root process
         all_scores = comm.gather(local_scores, root=0)

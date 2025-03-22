@@ -30,17 +30,17 @@ This assignment is divided into several parts:
      - **Mutation**: Apply **mutation** to introduce random changes in the offspring.
      - **Termination Condition**: The algorithm runs until a predefined number of generations or until an acceptable solution is found.
      - **output**:
-     - Best Solution: [0, 20, 18, 27, 1, 19, 6, 25, 15, 3, 8, 16, 10, 26, 22, 29, 12, 7, 28, 23, 24, 2, 30, 9, 4, 14, 31, 13, 5, 11, 17, 21]
+     - Best Solution: [0, 14, 24, 31, 15, 5, 23, 2, 1, 19, 3, 10, 6, 20, 22, 29, 11, 9, 13, 4, 18, 7, 26, 21, 27, 25, 17, 28, 16, 12, 8, 30]
      - Total Distance: -1000000.0
-     - Total time: 0.038
+     - Total time: 0.04037952423095703
 3. **Part 3: Parallelization**
    - Once the sequential version of the genetic algorithm is working, you need to parallelize the algorithm to run over multiple machines or processes.
    - Parallelization is implemented using **MPI4PY**.
    - The goal is to distribute the population across multiple processes and parallelize the fitness calculation, selection, and other operations.
    - **output with city_distances_extended.csv**:
    - Generation 100 took 0.00 seconds.
-   - Total time: 0.003048419952392578
-   - Final Best Route: [0, 65, 68, 33, 84, 1, 88, 34, 16, 11, 56, 45, 9, 97, 96, 46, 90, 67, 53, 8, 63, 94, 73, 47, 44, 60, 83, 95, 57, 54, 75, 74, 82, 69, 23, 52, 12, 58, 32, 62, 86, 92, 7, 25, 77, 29, 41, 71, 43, 78, 17, 42, 59, 2, 79, 50, 91, 24, 80, 99, 70, 36, 87, 55, 20, 35, 49, 39, 13, 66, 4, 93, 15, 28, 72, 10, 19, 89, 14, 40, 38, 26, 31, 21, 3, 48, 85, 22, 5, 76, 30, 37, 51, 18, 27, 81, 61, 98, 64, 6]
+   - Total time: 0.003268718719482422
+   - Final Best Route: [0, 49, 5, 90, 87, 89, 81, 14, 7, 30, 39, 80, 62, 37, 94, 63, 25, 53, 16, 11, 77, 4, 29, 57, 15, 22, 42, 8, 20, 76, 74, 67, 2, 69, 85, 99, 56, 31, 9, 84, 93, 58, 13, 27, 59, 50, 1, 92, 21, 23, 18, 43, 10, 95, 72, 47, 82, 35, 28, 96, 19, 88, 64, 45, 70, 66, 26, 6, 68, 61, 51, 55, 73, 32, 40, 65, 75, 97, 12, 60, 46, 83, 41, 52, 71, 79, 54, 34, 17, 44, 98, 91, 36, 48, 86, 38, 33, 78, 24, 3]
    - **output with city_distances.csv**:
    - Generation 100 took 0.00 seconds.
    - Total time: 0.0022308826446533203
@@ -58,16 +58,16 @@ This assignment is divided into several parts:
            This ensures every process has the same updated population.
      - **output after enhancements with city_distances.csv**:
      - Generation 100 took 0.00 seconds.
-     - Total time: 0.0013835430145263672
-     - Final Best Route: [26, 2, 9, 16, 25, 15, 13, 11, 18, 8, 30, 20, 6, 7, 31, 1, 22, 21, 0, 27, 19, 3, 23, 14, 12, 5, 29, 4, 28, 24, 10, 17]
-     - The efficiency of the enhanced implementation is 26.87% when using 6 processes.
-     - The speedup achieved after enhancements is 1.61×.
+     - Total time: 0.0013380050659179688
+     - Final Best Route: [0, 21, 18, 6, 4, 25, 26, 13, 20, 3, 28, 17, 11, 16, 22, 31, 23, 29, 24, 5, 27, 19, 14, 30, 10, 12, 2, 8, 9, 15, 1, 7]
+     - The efficiency of the enhanced implementation is 27.8% when using 6 processes.
+     - The speedup achieved after enhancements is 1.67×.
      - **output after enhancements with city_distances_extended.csv**:
      - Generation 100 took 0.00 seconds.
      - Total time: 0.002903461456298828
      - Final Best Route: [0, 20, 28, 51, 26, 5, 85, 83, 66, 53, 76, 84, 88, 23, 21, 79, 38, 82, 17, 49, 40, 93, 87, 65, 86, 78, 96, 77, 47, 32, 97, 99, 56, 6, 27, 37, 33, 54, 30, 42, 60, 45, 90, 67, 7, 52, 61, 39, 46, 95, 55, 36, 29, 62, 43, 35, 11, 15, 44, 50, 68, 24, 4, 25, 75, 1, 81, 92, 74, 73, 3, 48, 8, 12, 57, 58, 41, 69, 13, 19, 14, 10, 31, 64, 94, 9, 80, 22, 34, 89, 98, 59, 18, 70, 16, 2, 91, 71, 72, 63]
-     - The efficiency of the enhanced implementation is 17.50% when using 6 processes.
-     - The speedup achieved after enhancements is 1.05x.
+     - The efficiency of the enhanced implementation is 18.8% when using 6 processes.
+     - The speedup achieved after enhancements is  1.13x.
        
 ### **Adding More Cars to the Problem**  
 
