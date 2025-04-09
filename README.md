@@ -1,173 +1,252 @@
+# Maze Explorer Game
+
+A simple maze exploration game built with Pygame where you can either manually navigate through a maze or watch an automated solver find its way to the exit.
+
+## Getting Started
+
+### 1. Connect to Your VM
+
+1. Open **<span style="color:red">Visual Studio Code</span>**
+2. Install the "Remote - SSH" extension if you haven't already
+3. Connect to your VM using SSH:
+   - Press `Ctrl+Shift+P` to open the command palette
+   - Type "Remote-SSH: Connect to Host..."
+   - Enter your VM's SSH connection details
+   - Enter your credentials when prompted
+
+### 2. Project Setup
+
+1. Clone this repository to your VM
+2. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Running the Game
+
+### Basic Usage
+Run the game with default settings (30x30 random maze):
+```bash
+python main.py
+```
+
+### Manual Mode (Interactive)
+Use arrow keys to navigate through the maze:
+```bash
+# Run with default random maze
+python main.py
+
+# Run with static maze
+python main.py --type static
+
+# Run with custom maze dimensions
+python main.py --width 40 --height 40
+```
+
+### Automated Mode (Explorer)
+The explorer will automatically solve the maze and show statistics:
+
+#### Without Visualization (Text-only)
+```bash
+# Run with default random maze
+python main.py --auto
+
+# Run with static maze
+python main.py --type static --auto
+
+# Run with custom maze dimensions
+python main.py --width 40 --height 40 --auto
+```
+
+#### With Visualization (Watch the Explorer in Action)
+```bash
+# Run with default random maze
+python main.py --auto --visualize
+
+# Run with static maze
+python main.py --type static --auto --visualize
+
+# Run with custom maze dimensions
+python main.py --width 40 --height 40 --auto --visualize
+```
+
+Available arguments:
+- `--type`: Choose between "random" (default) or "static" maze generation
+- `--width`: Set maze width (default: 30, ignored for static mazes)
+- `--height`: Set maze height (default: 30, ignored for static mazes)
+- `--auto`: Enable automated maze exploration
+- `--visualize`: Show real-time visualization of the automated exploration
+
+## Maze Types
+
+### Random Maze (Default)
+- Generated using depth-first search algorithm
+- Different layout each time you run the program
+- Customizable dimensions
+- Default type if no type is specified
+
+### Static Maze
+- Predefined maze pattern
+- Fixed dimensions (50x50)
+- Same layout every time
+- Width and height arguments are ignored
+
+## How to Play
+
+### Manual Mode
+1. Controls:
+- Use the arrow keys to move the player (<span style="color:blue">blue circle</span>)
+- Start at the <span style="color:green">green square</span>
+- Reach the <span style="color:red">red square</span> to win
+- Avoid the <span style="color:black">black walls</span>
+
+### Automated Mode
+- The explorer uses the right-hand rule algorithm to solve the maze
+- Automatically finds the path from start to finish
+- Displays detailed statistics at the end:
+  - Total time taken
+  - Total moves made
+  - Number of backtrack operations
+  - Average moves per second
+- Works with both random and static mazes
+- Optional real-time visualization:
+  - Shows the explorer's position in <span style="color:blue">blue</span>
+  - Updates at 30 frames per second
+  - Pauses for 2 seconds at the end to show the final state
+
+## Project Structure
+
+```
+maze-runner/
+├── src/
+│   ├── __init__.py
+│   ├── constants.py
+│   ├── maze.py
+│   ├── player.py
+│   ├── game.py
+│   └── explorer.py
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+## Code Overview
+
+### Main Files
+- `main.py`: Entry point of the game. Handles command-line arguments and initializes the game with specified parameters.
+- `requirements.txt`: Lists all Python package dependencies required to run the game.
+
+### Source Files (`src/` directory)
+- `__init__.py`: Makes the src directory a Python package.
+- `constants.py`: Contains all game constants like colors, screen dimensions, cell sizes, and game settings.
+- `maze.py`: Implements maze generation using depth-first search algorithm and handles maze-related operations.
+- `player.py`: Manages player movement, collision detection, and rendering of the player character.
+- `game.py`: Core game implementation including the main game loop, event handling, and game state management.
+- `explorer.py`: Implements automated maze solving using the right-hand rule algorithm and visualization.
+
+## Game Features
+
+- Randomly generated maze using depth-first search algorithm
+- Predefined static maze option
+- Manual and automated exploration modes
+- Real-time visualization of automated exploration
+- Smooth player movement
+- Collision detection with walls
+- Win condition when reaching the exit
+- Performance metrics (time and moves) for automated solving
+
+## Development
+
+The project is organized into several modules:
+- `constants.py`: Game constants and settings
+- `maze.py`: Maze generation and management
+- `player.py`: Player movement and rendering
+- `game.py`: Game implementation and main loop
+- `explorer.py`: Automated maze solving implementation and visualization
+
+## Student Questions
+
+### Question 1 (10 points)
+Explain how the automated maze explorer works. Your answer should include:
+1. The algorithm used by the explorer
+2. How it handles getting stuck in loops
+3. The backtracking strategy it employs
+4. The statistics it provides at the end of exploration
+
+To answer this question:
+1. Run the explorer both with and without visualization
+2. Observe its behavior in different maze types
+3. Analyze the statistics it provides
+4. Read the source code in `explorer.py` to understand the implementation details
+
+Your answer should demonstrate a clear understanding of:
+- The right-hand rule algorithm
+- The loop detection mechanism
+- The backtracking strategy
+- The performance metrics collected
+
+### Question 2 (30 points)
+Modify the main program to run multiple maze explorers simultaneously. This is because we want to find the best route out of the maze. Your solution should:
+1. Allow running multiple explorers in parallel
+2. Collect and compare statistics from all explorers
+3. Display a summary of results showing which explorer performed best
+
+*Hints*:
+- To get full marks, use Celery and RabbitMQ to distribute the exploration tasks. If you don't use Celery, RabbitMQ and redis, you will still get marks but you will not get the full 30 points.
+- Implement a task queue system
+- Do not visualize the exploration, just run it in parallel
+- Store results for comparison
+
+**To answer this question:** 
+1. Study the current explorer implementation
+2. Design a parallel execution system
+3. Implement task distribution
+4. Create a results comparison system
+
+### Question 3 (10 points)
+Analyze and compare the performance of different maze explorers on the static maze. Your analysis should:
+
+1. Run multiple explorers (at least 4 ) simultaneously on the static maze
+2. Collect and compare the following metrics for each explorer:
+   - Total time taken to solve the maze
+   - Number of moves made
+   - *Optional*:
+     - Number of backtrack operations
+
+3. What do you notice regarding the performance of the explorers? Explain the results and the observations you made.
 
 
-## Assignment Overview
+### Question 4 (20 points)
+Based on your analysis from Question 3, propose and implement enhancements to the maze explorer to overcome its limitations. Your solution should:
 
-This assignment involves implementing a genetic algorithm (GA) to solve the **fleet management problem**, where the goal is to optimize the routes for delivery vehicles in a city. The optimization aims to minimize the total distance traveled by the fleet while ensuring each delivery node in the city is visited exactly once by any vehicle.
+1. Identify and explain the main limitations of the current explorer:
 
-### Key Concepts
+2. Propose specific improvements to the exploration algorithm:
 
-1. **Genetic Algorithm (GA)**: A search heuristic inspired by the process of natural selection, used to solve optimization and search problems. It works by evolving a population of candidate solutions through iterations using selection, crossover, and mutation.
+3. Implement at least two of the proposed improvements:
 
-2. **Fleet Management Problem**: The task involves optimizing the routes for a fleet of delivery vehicles in a city, minimizing the total distance traveled while ensuring that each delivery location (node) is visited once. The problem is a variation of the **Traveling Salesman Problem (TSP)**.
+Your answer should include:
+1. A detailed explanation of the identified limitations
+2. Documentation of your proposed improvements
+3. The modified code with clear comments explaining the changes
 
-### Assignment Breakdown
+### Question 5 (20 points)
 
-This assignment is divided into several parts:
+Compare the performance of your enhanced explorer with the original:
+   - Run both versions on the static maze
+   - Collect and compare all relevant metrics
+   - Create visualizations showing the improvements
+   - Document the trade-offs of your enhancements
+Your answer should include:
+1. Performance comparison results and analysis
+2. Discussion of any trade-offs or new limitations introduced
 
-1. **Part 1: Single Vehicle Optimization**
-   - You start by optimizing the route for a **single vehicle** that needs to visit all nodes in the city.
-   - The vehicle starts and ends at the depot (node 0).
-   - The objective is to minimize the total distance traveled by the vehicle.
-   - The city is represented as a graph, where each node corresponds to a delivery location, and the distances between the nodes are provided in a distance matrix (`city_distances.csv`).
+### Final points 6 (10 points)
+1. Solve the static maze in 150 moves or less to get 10 points.
+2. Solve the static maze in 135 moves or less to get 15 points.
+3. Solve the static maze in 130 moves or less to get 100% in your assignment.
 
-2. **Part 2: Genetic Algorithm**
-   - You implement a genetic algorithm to solve this optimization problem.
-   - The genetic algorithm includes the following components:
-     - **Population Initialization**: Create an initial population of routes (solutions).
-     - **Fitness Evaluation**: Calculate the fitness of each solution (route) based on the total distance traveled. The fitness function is designed to minimize the distance.
-     - **Selection**: Select individuals for crossover based on their fitness using **tournament selection**.
-     - **Crossover**: Perform **order crossover (OX)** to combine the genetic material of two parent routes and create offspring.
-     - **Mutation**: Apply **mutation** to introduce random changes in the offspring.
-     - **Termination Condition**: The algorithm runs until a predefined number of generations or until an acceptable solution is found.
-     - **output**:
-     - Best Solution: [0, 14, 24, 31, 15, 5, 23, 2, 1, 19, 3, 10, 6, 20, 22, 29, 11, 9, 13, 4, 18, 7, 26, 21, 27, 25, 17, 28, 16, 12, 8, 30]
-     - Total Distance: -1000000.0
-     - Total time: 0.04037952423095703
-3. **Part 3: Parallelization**
-   - Once the sequential version of the genetic algorithm is working, you need to parallelize the algorithm to run over multiple machines or processes.
-   - Parallelization is implemented using **MPI4PY**.
-   - The goal is to distribute the population across multiple processes and parallelize the fitness calculation, selection, and other operations.
-   - **output with city_distances_extended.csv**:
-   - Generation 100 took 0.00 seconds.
-   - Total time: 0.003268718719482422
-   - Final Best Route: [0, 49, 5, 90, 87, 89, 81, 14, 7, 30, 39, 80, 62, 37, 94, 63, 25, 53, 16, 11, 77, 4, 29, 57, 15, 22, 42, 8, 20, 76, 74, 67, 2, 69, 85, 99, 56, 31, 9, 84, 93, 58, 13, 27, 59, 50, 1, 92, 21, 23, 18, 43, 10, 95, 72, 47, 82, 35, 28, 96, 19, 88, 64, 45, 70, 66, 26, 6, 68, 61, 51, 55, 73, 32, 40, 65, 75, 97, 12, 60, 46, 83, 41, 52, 71, 79, 54, 34, 17, 44, 98, 91, 36, 48, 86, 38, 33, 78, 24, 3]
-   - **output with city_distances.csv**:
-   - Generation 100 took 0.00 seconds.
-   - Total time: 0.0022308826446533203
-   - Final Best Route: [0, 21, 15, 13, 23, 2, 10, 6, 1, 20, 3, 30, 12, 11, 18, 22, 9, 4, 8, 26, 24, 17, 19, 16, 31, 7, 14, 27, 5, 25, 28, 29]
-   - **output with MPI4PY on all machines**:
-   - full discloser, me and my teammates couldn't get it to work for some reason and we have faced the same issue with lab6 execution. However, we mannaged to make it work on the MPI4PY lecture.
-
-4. **Part 4: Enhancements**
-   - After parallelizing the genetic algorithm, you need to improve it further by:
-     - Ensure population size matches all_scores before selection.
-           The IndexError happened because select_in_tournament assumed a larger population size than available scores.
-     - Use np.minimum to prevent invalid indices in tournament selection.
-           If num_tournaments * tournament_size > len(all_scores), it could result in invalid indices.
-     - Broadcast the correct population size to all MPI processes.
-           This ensures every process has the same updated population.
-     - **output after enhancements with city_distances.csv**:
-     - Generation 100 took 0.00 seconds.
-     - Total time: 0.0013380050659179688
-     - Final Best Route: [0, 21, 18, 6, 4, 25, 26, 13, 20, 3, 28, 17, 11, 16, 22, 31, 23, 29, 24, 5, 27, 19, 14, 30, 10, 12, 2, 8, 9, 15, 1, 7]
-     - The efficiency of the enhanced implementation is 27.8% when using 6 processes.
-     - The speedup achieved after enhancements is 1.67×.
-     - **output after enhancements with city_distances_extended.csv**:
-     - Generation 100 took 0.00 seconds.
-     - Total time: 0.002903461456298828
-     - Final Best Route: [0, 20, 28, 51, 26, 5, 85, 83, 66, 53, 76, 84, 88, 23, 21, 79, 38, 82, 17, 49, 40, 93, 87, 65, 86, 78, 96, 77, 47, 32, 97, 99, 56, 6, 27, 37, 33, 54, 30, 42, 60, 45, 90, 67, 7, 52, 61, 39, 46, 95, 55, 36, 29, 62, 43, 35, 11, 15, 44, 50, 68, 24, 4, 25, 75, 1, 81, 92, 74, 73, 3, 48, 8, 12, 57, 58, 41, 69, 13, 19, 14, 10, 31, 64, 94, 9, 80, 22, 34, 89, 98, 59, 18, 70, 16, 2, 91, 71, 72, 63]
-     - The efficiency of the enhanced implementation is 18.8% when using 6 processes.
-     - The speedup achieved after enhancements is  1.13x.
-       
-### **Adding More Cars to the Problem**  
-
-    - To add more cars, each solution (chromosome) should represent multiple routes, one per vehicle. The fitness function must consider the total cost for all cars, ensuring balanced workload distribution. Crossover and mutation operators should allow swapping cities between vehicles while maintaining valid routes. Using **MPI**, the computation can be parallelized, assigning different cars to different processes for efficiency. Constraints like vehicle capacity and time limits should also be considered.
----
-
-## Tools and Technologies
-
-- **Python**: The primary programming language used to implement the genetic algorithm.
-- **MPI4PY**: The Python library used to parallelize the algorithm over multiple processes or machines using the Message Passing Interface (MPI).
-- **NumPy**: A fundamental library used for handling arrays and matrices, including the distance matrix for the city map.
-- **CSV**: Used to load the city distance data from a file (`city_distances.csv`).
-- **Genetic Algorithm Components**:
-  - **Population**: A set of potential solutions represented as routes.
-  - **Fitness Function**: A function to evaluate the quality of each route by calculating the total distance.
-  - **Selection**: A method to select individuals for reproduction based on fitness.
-  - **Crossover**: A method to combine two parent routes to generate offspring.
-  - **Mutation**: A method to randomly alter a route to introduce diversity in the population.
-
----
-
-## Detailed Algorithm Steps
-
-### 1. **Population Initialization**
-   - Initialize a population of routes where each route is a permutation of the delivery nodes (excluding the depot node).
-   - The first node (depot) is fixed in all routes, and the remaining nodes are permuted randomly.
-
-### 2. **Fitness Calculation**
-   - The fitness function calculates the total distance traveled by a vehicle based on its route.
-   - The distance matrix is used to calculate the distance between consecutive nodes in the route.
-   - A large penalty is applied if an infeasible route is encountered (i.e., if two nodes are disconnected).
-
-### 3. **Selection (Tournament Selection)**
-   - In tournament selection, a subset of individuals (routes) is randomly selected, and the individual with the highest fitness is chosen as a parent for reproduction.
-   - This process is repeated for multiple tournaments to select a pool of parents for crossover.
-
-### 4. **Crossover (Order Crossover)**
-   - Order Crossover (OX) combines two parent routes to produce two offspring.
-   - A random segment from one parent is copied to the offspring, and the remaining positions are filled with the nodes from the other parent while preserving their relative order.
-
-### 5. **Mutation**
-   - Mutation randomly swaps two nodes in a route with a low probability (mutation rate). This introduces small changes to the solution to help explore different parts of the solution space.
-
-### 6. **Termination Condition**
-   - The algorithm continues for a predefined number of generations or until an optimal solution (or acceptable fitness) is reached.
-
----
-
-## Parallelization with MPI4PY
-
-### 1. **Distribute Population**
-   - The population is divided into subpopulations, which are distributed across different MPI processes.
-   - Each process calculates the fitness for its assigned individuals.
-
-### 2. **Collect Results**
-   - The fitness values for all individuals in the population are gathered and exchanged between processes using MPI communication.
-   - The global best solution is determined by comparing the fitness values from all processes.
-
-### 3. **Parallel Selection, Crossover, and Mutation**
-   - Selection, crossover, and mutation operations can also be parallelized by applying them independently to subgroups of the population.
-   - This reduces the overall execution time by performing these operations simultaneously on multiple processes.
-
-### 4. **Performance Metrics**
-   - After parallelizing the algorithm, you can compare the execution time before and after the enhancements to evaluate the performance improvement.
-
----
-
-## Running the Algorithm
-
-1. **Initialization**: The initial population is generated randomly using `generate_unique_population`.
-2. **Fitness Evaluation**: Fitness values are calculated for each individual in the population.
-3. **Selection**: Individuals are selected for reproduction based on their fitness.
-4. **Crossover and Mutation**: New offspring are created using crossover and mutation operations.
-5. **Termination**: The algorithm stops after a predefined number of generations or when an acceptable solution is found.
-
----
-
-## Enhancements and Improvements
-
-- **Parallelization**: By distributing the population and fitness evaluations across multiple processes, the algorithm can handle larger populations and reduce computation time.
-- **Scaling**: As the city size increases (e.g., from 20 nodes to 100 nodes), the parallelized algorithm becomes essential to maintain reasonable computation times.
-
----
-
-## Challenges
-
-- **Infeasible Routes**: Handling disconnected nodes (routes that cannot be traveled directly between two nodes) requires proper penalty handling in the fitness function.
-- **Parallelization**: Efficiently distributing tasks and handling communication between processes is challenging, but crucial for improving performance on large-scale problems.
-
----
-
-## Future Improvements
-
-- **Multiple Cars**: The algorithm can be extended to handle multiple delivery vehicles. This would involve assigning routes to multiple vehicles and ensuring each node is visited exactly once by one vehicle.
-- **Dynamic Population Adjustment**: The algorithm can be enhanced by dynamically adjusting the population size or mutation rates based on the progress of the solution.
-- **Hybrid Algorithms**: Combining genetic algorithms with other optimization techniques like simulated annealing or local search could further improve performance.
-
----
-
-## Conclusion
-
-This assignment demonstrates the application of genetic algorithms to solve a real-world optimization problem—route optimization for a fleet of delivery vehicles. By parallelizing the algorithm using MPI4PY, we can significantly reduce the computation time and scale the algorithm to handle more complex problems with larger cities and fleets. The enhancements and improvements implemented throughout the assignment contribute to better performance and solution quality.
-
+### Bonus points
+1. Fastest solver to get top  10% routes (number of moves)
+2. Finding a solution with no backtrack operations
+3. Least number of moves.
