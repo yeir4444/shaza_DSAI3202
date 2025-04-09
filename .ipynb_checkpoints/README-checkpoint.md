@@ -192,15 +192,15 @@ The explorer uses the right-hand rule algorithm, which is one of the most widely
 While this algorithm is very useful, it sometimes fails if there are loops in the maze that surround either the starting position or the goal (Roberts, 2015). Fortunately, this algorithm has a pretty effective method for handling these types of situations, starting with the short history (deque of the last 3 positions) maintained by the explorer. If it notices repeated movement patterns, it interprets that as being stuck and backtracks by storing previous positions in self.backtrack_path, and each backtrack step increases self.backtrack_count. 
 
 So, when trapped, the explorer will:
-    - Step back to the last junction.
-    - Try an alternative unexplored direction.
+1. Step back to the last junction.
+2. Try an alternative unexplored direction.
 
-    
 At the end of exploration, the system reports:
-    - Total time taken
-    - Total number of moves
-    - Number of backtracks
-    - Average move speed
+
+- Total time taken
+- Total number of moves
+- Number of backtracks
+- Average move speed
 
 
 As can be seen in the print_statistics function below.
