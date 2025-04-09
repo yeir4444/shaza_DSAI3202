@@ -185,15 +185,24 @@ Your answer should demonstrate a clear understanding of:
 - The backtracking strategy
 - The performance metrics collected
 
+
+**answer:** 
 The explorer uses the right-hand rule algorithm, which is one of the most widely known strategies for solving a maze (Roberts, 2015). Where you place your right hand on the wall and keep it there until you find an exit. In this case, the agent always attempts to turn right first, move straight if possible, or turn left as a last resort. If none of these options are viable, it initiates the backtracking mechanism. 
-While this algorithm is very useful, it sometimes fails if there are loops in the maze that surround either the starting position or the goal (Roberts, 2015). Fortunately, this algorithm has a pretty effective method for handling these types of situations, starting with the short history (deque of the last 3 positions) maintained by the explorer. If it notices repeated movement patterns, it interprets that as being stuck and backtracks by storing previous positions in self.backtrack_path, and each backtrack step increases self.backtrack_count. So, when trapped, the explorer will:
+
+While this algorithm is very useful, it sometimes fails if there are loops in the maze that surround either the starting position or the goal (Roberts, 2015). Fortunately, this algorithm has a pretty effective method for handling these types of situations, starting with the short history (deque of the last 3 positions) maintained by the explorer. If it notices repeated movement patterns, it interprets that as being stuck and backtracks by storing previous positions in self.backtrack_path, and each backtrack step increases self.backtrack_count. 
+
+So, when trapped, the explorer will:
     - Step back to the last junction.
     - Try an alternative unexplored direction.
+
+    
 At the end of exploration, the system reports:
     - Total time taken
     - Total number of moves
     - Number of backtracks
     - Average move speed
+
+
 As can be seen in the print_statistics function below.
 ```
 def print_statistics(self, time_taken: float):
