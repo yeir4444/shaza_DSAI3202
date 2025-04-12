@@ -5,10 +5,10 @@ import os
 
 # === Configuration ===
 NUM_EXPLORERS = 4
-MAZE_TYPE = "static"  # or "random"
+MAZE_TYPE = "static" 
 MAZE_WIDTH = 50
 MAZE_HEIGHT = 50
-USE_ENHANCED_EXPLORER = True  # Set to False to test the original explorer
+USE_ENHANCED_EXPLORER = "astar"  # Set to False to test the original explorer, to True to test the improved algorithm, and to astar to test astar
 
 print("🚀 Submitting explorers...\n")
 

@@ -435,7 +435,51 @@ Note: ChatGPT was utilized to debug the code, but I ended up liking the emojis, 
 2. Solve the static maze in 135 moves or less to get 15 points.
 3. Solve the static maze in 130 moves or less to get 100% in your assignment.
 
+**answer:** 
+To reach the shortest possible solution, we implemented an A* algorithm for path finding as it guarantees the shortest path.  A* is known for its efficiency and accuracy in grid-based search problems (Foead et al., 2021). It uses a heuristic (Manhattan distance) to estimate distance to the goal, tracks cost for each step taken, and has a priority queue to explore the most promising paths first (GeeksforGeeks, 2024).
+
+The results were as follows:
+
+=== Explorer Results ===
+Explorer 0 ✅ - static Maze | Enhanced
+  Moves: 128
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 12800.0
+
+Explorer 1 ✅ - static Maze | Enhanced
+  Moves: 128
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 12800.0
+
+Explorer 2 ✅ - static Maze | Enhanced
+  Moves: 128
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 12800.0
+
+Explorer 3 ✅ - static Maze | Enhanced
+  Moves: 128
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 12800.0
+
+
+🏆 Best Explorer: #0 with 128 moves
+
+Which, as you can see, is under 130 moves. The results are identical for all explorers because all 4 explorers are running A* on the exact same static maze, and A* is designed to always find the optimal (shortest) path. 
+meaning, No randomness = all follow the same optimal path = same stats
+
+128 moves is the shortest path from start to end in that static maze, so every run will report exactly that. And as shown in the results, we can observe that there are no backtracks in this algorithm because A* always moves forward toward the optimal path. Identical results confirm that A* produces a deterministic and consistent solution in static environments (Foead et al., 2021), which not only validates the implementation but also proves its optimality.  
+
+With A*, we achieved a reliable shortest-path solution that satisfies the most stringent criteria of this assignment. 
+
+Reference: 
+- GeeksforGeeks. (2024, July 30). A* search algorithm. GeeksforGeeks. https://www.geeksforgeeks.org/a-search-algorithm/
+- Foead, D., Ghifari, A., Kusuma, M. B., Hanafiah, N., & Gunawan, E. (2021). A Systematic Literature review of A* pathfinding. Procedia Computer Science, 179, 507–514. https://doi.org/10.1016/j.procs.2021.01.034
+
 ### Bonus points
 1. Fastest solver to get top  10% routes (number of moves)
-2. Finding a solution with no backtrack operations
+2. Finding a solution with no backtrack operations --> this has been achieved using A* as mentioned above.
 3. Least number of moves.

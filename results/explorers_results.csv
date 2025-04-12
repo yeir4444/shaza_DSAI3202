@@ -1,5 +1,5 @@
 task_id,maze_type,enhanced,total_moves,backtracks,time_taken,avg_moves_per_sec
-0,static,True,1435,648,0.01,143500.0
-1,static,True,1145,501,0.01,114500.0
-2,static,True,1071,466,0.01,107100.0
-3,static,True,1947,903,0.01,194700.0
+0,static,astar,128,0,0.01,12800.0
+1,static,astar,128,0,0.01,12800.0
+2,static,astar,128,0,0.01,12800.0
+3,static,astar,128,0,0.01,12800.0
