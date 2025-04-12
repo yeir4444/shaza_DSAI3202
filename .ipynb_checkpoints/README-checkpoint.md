@@ -236,6 +236,42 @@ Modify the main program to run multiple maze explorers simultaneously. This is b
 3. Implement task distribution
 4. Create a results comparison system
 
+**answer:** 
+To run multiple explorers in parallel, we created a task distribution system using Celery, RabbitMQ, and Redis. each explorer was packaged as a Celery task and used for parallel execution.
+
+`tasks.py` was created to define a `run_explorer()` function that initializes a maze and solves it using the right-hand rule as explained in question 1. Then it returns performance statistics. we then launched 4 explorers simultaneously using `parallel_run.py`, each solving a separate instance of the maze without visualization.
+
+Celery workers handled the concurrent task execution, while Redis served as the result backend. After execution, we collected results from all explorers and printed a summary, including total moves, backtracks, and average moves per second. This setup allowed us to compare their performance and identify the best explorer.
+
+
+=== Explorer Results ===
+Explorer 0 ✅ - static Maze
+  Moves: 1279
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 127900.0
+
+Explorer 1 ✅ - static Maze
+  Moves: 1279
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 127900.0
+
+Explorer 2 ✅ - static Maze
+  Moves: 1279
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 127900.0
+
+Explorer 3 ✅ - static Maze
+  Moves: 1279
+  Backtracks: 0
+  Time: 0.01s
+  Moves/sec: 127900.0
+
+
+🏆 Best Explorer: #0 with 1279 moves
+
 ### Question 3 (10 points)
 Analyze and compare the performance of different maze explorers on the static maze. Your analysis should:
 
@@ -248,6 +284,25 @@ Analyze and compare the performance of different maze explorers on the static ma
 
 3. What do you notice regarding the performance of the explorers? Explain the results and the observations you made.
 
+**answer:** 
+
+After running 4 explorers in parallel, as mentioned in question 2. We saved the results in a CSV file as a `results/` directory. and the results are as follows: 
+
+
+| Explorer ID | Total Moves | Backtracks | Time (s) | Moves/sec   |
+|-------------|-------------|------------|----------|-------------|
+| 0           | 1279        | 0          | 0.01     | 127900.0    |
+| 1           | 1279        | 0          | 0.01     | 127900.0    |
+| 2           | 1279        | 0          | 0.01     | 127900.0    |
+| 3           | 1279        | 0          | 0.01     | 127900.0    |
+
+**Observations:**
+
+- All explorers followed the exact same path and completed the maze with the same number of moves.
+- No backtracks were needed, confirming the static maze has a straightforward solution for the right-hand rule.
+- Minor timing variance may be masked by fast computation speed (so we used a floor time of 0.01s to ensure meaningful stats).
+
+While the identical results from all explorers suggest the algorithm behaves deterministically on the static maze, it also raises the possibility of a bug or oversight. Specifically, this could mean that all explorers are solving the exact same maze rather than different instances. This might indicate a limitation in how explorers are initialized or how the maze is cloned per task.
 
 ### Question 4 (20 points)
 Based on your analysis from Question 3, propose and implement enhancements to the maze explorer to overcome its limitations. Your solution should:
@@ -263,6 +318,61 @@ Your answer should include:
 2. Documentation of your proposed improvements
 3. The modified code with clear comments explaining the changes
 
+**answer:**
+
+The explorer we developed in question 4 uses the right-hand rule, which is deterministic and guarantees a solution in simply-connected mazes. However, it has very clear limitations, including:
+
+1. It does not adapt based on path conditions.
+2. It produces identical results across all runs on static mazes.
+3. There is no variability.
+4. Possibly all explorers are solving either the same shared maze object (my error) of a maze where the right-hand rule always performs identically.
+
+
+This clearly limits our ability to compare performance fairly or to improve solver efficiency. 
+
+To enhance the solution we can:
+
+1. Use Independent Maze Instances per Explorer.
+
+   We can use the `create_maze()` function inside each Celery task to ensure every explorer gets an isolated copy, which helps avoid the shared memory bugs.
+   
+2. Implement a Smarter Solver: `ImprovedExplorer`.
+
+   By adding a simple greedy direction preference that prioritizes moving towards the goal's direction (based on coordinate difference) and falls back to the right-hand rule if blocked, we can enhance the algorithm.
+
+**results after improvment:**
+
+
+=== Explorer Results ===
+Explorer 0 ✅ - static Maze | Enhanced
+  Moves: 1357
+  Backtracks: 607
+  Time: 0.01s
+  Moves/sec: 135700.0
+
+Explorer 1 ✅ - static Maze | Enhanced
+  Moves: 1417
+  Backtracks: 640
+  Time: 0.01s
+  Moves/sec: 141700.0
+
+Explorer 2 ✅ - static Maze | Enhanced
+  Moves: 1159
+  Backtracks: 509
+  Time: 0.01s
+  Moves/sec: 115900.0
+
+Explorer 3 ✅ - static Maze | Enhanced
+  Moves: 2061
+  Backtracks: 960
+  Time: 0.01s
+  Moves/sec: 206100.0
+
+
+🏆 Best Explorer: #2 with 1159 moves
+
+We can see we have different results across explorers, variations in moves and backtracks, and a clear best performer (explorer #2).
+
 ### Question 5 (20 points)
 
 Compare the performance of your enhanced explorer with the original:
@@ -273,6 +383,52 @@ Compare the performance of your enhanced explorer with the original:
 Your answer should include:
 1. Performance comparison results and analysis
 2. Discussion of any trade-offs or new limitations introduced
+
+
+**answer:**
+To compare the performance of the original explorer algorithm (right-hand rule) with the enhanced explorer algorithm (greedy + randomized direction), both solving the same static maze in parallel. The comparison is based on:
+
+- Total moves made
+- Number of backtracks
+- Time taken (fixed floor of 0.01s due to very fast execution)
+- Average moves per second
+
+We executed four explorers using each algorithm. Both sets were run in parallel using Celery with RabbitMQ and Redis for distributed execution. The explorers solved a **50x50 static maze**, and results were logged to a CSV file shown below:
+
+#### **Original Explorer Results (Right-Hand Rule)**
+
+| Explorer ID | Total Moves | Backtracks | Time (s) | Moves/sec |
+|-------------|-------------|------------|----------|-----------|
+| 0           | 1279        | 0          | 0.01     | 127900.0  |
+| 1           | 1279        | 0          | 0.01     | 127900.0  |
+| 2           | 1279        | 0          | 0.01     | 127900.0  |
+| 3           | 1279        | 0          | 0.01     | 127900.0  |
+
+#### **Improved Explorer Results (Greedy + Random Shuffle)**
+
+| Explorer ID | Total Moves | Backtracks | Time (s) | Moves/sec |
+|-------------|-------------|------------|----------|-----------|
+| 0           | 1357        | 607        | 0.01     | 135700.0  |
+| 1           | 1417        | 640        | 0.01     | 141700.0  |
+| 2           | 1159        | 509        | 0.01     | 115900.0  |
+| 3           | 2061        | 960        | 0.01     | 206100.0  |
+
+**Observations:**
+
+- The original explorer produced identical results across all runs. This is expected due to the deterministic nature of the right-hand rule algorithm on a fixed maze layout.
+
+- The improved explorer, although operating on the same static maze, produced diverse results due to the randomized direction selection strategy.
+  
+- Backtracking was introduced in the improved explorer, which allows it to recover from poor path choices but also increases path variability.
+- Explorer #2 with the improved method found the most efficient path with just 1159 moves, outperforming the original’s fixed 1279 moves.
+- This shows that intelligent and randomized decision-making can lead to better paths, even if other runs perform worse due to randomness.
+
+The improved explorer algorithm introduces necessary variability and adaptability by combining goal-oriented movement with random direction shuffling. While this leads to some explorers performing worse, it also enables at least one to outperform the original fixed-path logic. This kind of adaptive behavior is crucial in dynamic or more complex maze environments.
+
+The experiment validates that the enhancement adds performance diversity, enabling optimization opportunities, and providing a more realistic comparison of pathfinding strategies.
+
+
+Note: ChatGPT was utilized to debug the code, but I ended up liking the emojis, so I kept the print statements. 
 
 ### Final points 6 (10 points)
 1. Solve the static maze in 150 moves or less to get 10 points.
